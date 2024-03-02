@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useRouter, Stack } from "expo-router"
 import ImageBtn from "../components/header/image-btn";
 
-
 import HomeComponent from "../components/home/home";
 
 export default function Home() {
