@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
 
-const ChatList = ({chatItems}) => {
+const ChatList = ({ chatItems, openChat }) => {
 
     const styles = StyleSheet.create({
         container: {
@@ -35,17 +35,17 @@ const ChatList = ({chatItems}) => {
     return (
         <ScrollView style={styles.container}>
             {
-                chatItems.map( item => (
-                    <TouchableOpacity key={item._id} style={styles.chatItem}>
+                chatItems.map(item => (
+                    <TouchableOpacity key={item._id} style={styles.chatItem} onPress={() => { openChat(item?._id) }}>
                         <View style={styles.leftContent}>
                             <Text style={styles.chatName}>{item.name}</Text>
                             <Text style={styles.lastMessage}>{item.lastMessage}</Text>
                         </View>
                         <View style={styles.rightContent}>
-                            <Text style={styles.unseenCountText}>{item?.unseenCount?item?.unseenCount:''}</Text>
+                            <Text style={styles.unseenCountText}>{item?.unseenCount ? item?.unseenCount : ''}</Text>
                         </View>
                     </TouchableOpacity>
-                ) )
+                ))
             }
 
         </ScrollView>

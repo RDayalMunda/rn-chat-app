@@ -1,6 +1,13 @@
+// import { useEffect } from "react";
 import { View, Text } from "react-native";
 
-const ChatPage = ({activeChatId}) => {
+const ChatPage = ({ activeChatId }) => {
+
+    // useEffect( ()=>{
+    //     console.log('activeChatId', activeChatId)
+    // }, [  ] )
+
+    console.log('chatPage', activeChatId)
 
     return (
         <View >
