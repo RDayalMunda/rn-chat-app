@@ -6,8 +6,8 @@ import ChatPage from "./chat-page";
 const Chats = () => {
 
     return (
-        <View >
-            <Text >Chats Page</Text>
+        <View>
+            <Text>Chats Page</Text>
             <ChatList />
             <ChatPage />
         </View>
