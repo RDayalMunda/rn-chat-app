@@ -15,7 +15,7 @@ export default function Home() {
                     headerStyle: { backgroundColor: '#e1e1f1', paddingHorizontal: 20 },
                     headerShadowVisible: true,
                     headerRight: ()=>(
-                        <ImageBtn />
+                        <ImageBtn dimension={'70%'}/>
                     ),
                     title: 'Chat App', // this by default is "index".
                 }}

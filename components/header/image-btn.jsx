@@ -1,6 +1,6 @@
 import { TouchableOpacity, Image, StyleSheet, Platform } from "react-native";
 
-const ImageBtn = ({ iconUrl, dimension, handlePress }) => {
+const ImageBtn = ({ iconUrl, handlePress, dimension }) => {
     const styles = StyleSheet.create({
         btnContainer: {
             width: 40,
@@ -9,7 +9,7 @@ const ImageBtn = ({ iconUrl, dimension, handlePress }) => {
             borderRadius: 10,
             justifyContent: "center",
             alignItems: "center",
-            marginEnd: Platform.OS=='web'?10:0,
+            marginEnd: Platform.OS=='web'?16:0,
         },
         btnImg: (dimension) => ({
             width: dimension,
@@ -23,7 +23,7 @@ const ImageBtn = ({ iconUrl, dimension, handlePress }) => {
                 source={{ uri: "http://192.168.56.212:8081/assets/images/burger.png" }}
                 // source={{ uri: "http://192.168.56.212:8081/assets/images/profile.webp" }}
                 resizeMode="cover"
-                style={styles.btnImg('70%')}
+                style={styles.btnImg(dimension)}
             />
         </TouchableOpacity>
     )

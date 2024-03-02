@@ -4,7 +4,7 @@ const ChatPage = () => {
 
     return (
         <View >
-            <Text >Chat Component</Text>
+            <Text >Chat mesages here</Text>
         </View>
     )
 }

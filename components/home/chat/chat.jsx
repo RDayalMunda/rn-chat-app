@@ -3,15 +3,15 @@ import ChatList from "./chat-list";
 import ChatPage from "./chat-page";
 
 
-const ChatComponent = () => {
+const Chats = () => {
 
     return (
         <View >
-            <Text >Chat Component</Text>
+            <Text >Chats Page</Text>
             <ChatList />
             <ChatPage />
         </View>
     )
 }
 
-export default ChatComponent
+export default Chats
