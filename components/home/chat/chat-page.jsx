@@ -23,21 +23,32 @@ const ChatPage = ({ activeChatId, closeChat }) => {
     }, [] )
 
     return (
-        <View style={style.container}>
-            <Pressable
-            onPress={closeChat}
-            style={style.button}
-            android_ripple={RIPPLE_STYLE_LIGHT}
-            >
-                <Text  style={style.buttonText}>Close</Text>
-            </Pressable>
-            <Text style={{ color: 'black', fontSize: 25 }}>{activeChatId}</Text>
-        </View>
+        <>
+        
+            <View style={styles.container}>
+                <Pressable
+                onPress={closeChat}
+                style={styles.button}
+                android_ripple={RIPPLE_STYLE_LIGHT}
+                >
+                    <Text  style={styles.buttonText}>Close</Text>
+                </Pressable>
+                <Text style={{ color: 'black', fontSize: 25 }}>Chat-{activeChatId}-Id</Text>
+            </View>
+            
+            <View style={styles.stickyContainer}>
+                <Pressable onPress={closeChat}>
+                    <Text>Back</Text>
+                </Pressable>
+                <Text style={styles.stickyText}>TAB TQWO: Sticky Text at the Bottom</Text>
+            </View>
+        </>
     )
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
+        flex: 1
     },
     button:{
         backgroundColor: 'black',

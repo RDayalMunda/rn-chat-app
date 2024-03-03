@@ -1,10 +1,12 @@
-import { StyleSheet, Animated, Dimensions} from "react-native";
-import ChatList from "./chat-list";
-import ChatPage from "./chat-page";
-import { useState, useRef, useEffect } from "react";
-
+import React, { useRef, useState } from 'react';
+import { View, ScrollView, FlatList, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
+import ChatList from './chat-list';
+import ChatPage from './chat-page';
 
 const Chats = () => {
+    // Dummy data for the FlatList
+
+    const scrollViewRef = useRef(null);
 
     var [activeChatId, setActiveChatId] = useState("")
     const [chatItems, setChatItems] = useState([
@@ -38,70 +40,53 @@ const Chats = () => {
         { "_id": "65e335e7d07bc171eeedc9eb", "name": "Hubbard Barnett", "lastMessage": "Reprehenderit amet dolor mollit officia.", "lastMessageType": "text", "unseenCount": 0 },
         { "_id": "65e335e7194e453e80c361f9", "name": "Fernandez Figueroa", "lastMessage": "Nulla officia ad adipisicing fugiat ad sit Lorem dolor voluptate eiusmod.", "lastMessageType": "text", "unseenCount": 1 }
     ])
-    const slideAnimation = useRef(new Animated.Value(0)).current;
-
-    const toggleVisibility = () => {
-        Animated.timing(slideAnimation, {
-            toValue: activeChatId?1:0,
-            duration: 300,
-            useNativeDriver: true,
-        }).start();
-
-    };
-
-    const animatedStyle = {
-        transform: [
-            {
-                translateX: slideAnimation.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [ Dimensions.get('window').width, 0], // Slide from translateY 0 to translateY 50
-                }),
-            },
-        ],
-    };
-
+    const [newChatItems, setNewChatItems] = useState([
+        { "_id": "65e335e79cda0d6e0f2b685a", "name": "Kidd Case", "lastMessage": "Laboris excepteur minim amet laborum adipisicing magna.", "lastMessageType": "text", "unseenCount": 2 },
+        { "_id": "65e335e708485ea8d5d942f4", "name": "Bridgette Pruitt", "lastMessage": "Do ex ex adipisicing quis eu.", "lastMessageType": "text", "unseenCount": 4 },
+        { "_id": "65e335e75e2ffc01c24205ac", "name": "Susanna Gordon", "lastMessage": "Et id mollit Lorem excepteur labore velit dolore esse ipsum velit nulla magna labore deserunt.", "lastMessageType": "text", "unseenCount": 5 },
+        { "_id": "65e335e7f52184b3c60866ee", "name": "Rachel Moody", "lastMessage": "Eiusmod nulla proident consectetur aliqua ex aliqua velit.", "lastMessageType": "text", "unseenCount": 3 },
+    ])
 
     function openChat(chatId) {
-        if (chatId) {
-            activeChatId = chatId, setActiveChatId(chatId);
-            toggleVisibility();
-        }
-    }
+        activeChatId=chatId; setActiveChatId(chatId);
+        scrollViewRef.current.scrollTo({ x: Dimensions.get('window').width, animated: true });
+    };
 
-    function closeChat(){
-        activeChatId = '', setActiveChatId('');
-        toggleVisibility()
+    function closeChat() {
+        activeChatId=""; setActiveChatId("");
+        scrollViewRef.current.scrollTo({ x: 0, animated: true });
     }
 
     return (
-        <>
-            <ChatList chatItems={chatItems} openChat={openChat} />
-            <Animated.View style={[styles.animatedView, animatedStyle]}>
-                <ChatPage activeChatId={activeChatId} closeChat={closeChat} key={activeChatId} />
-            </Animated.View>
-        </>
-    )
-}
-let styles = StyleSheet.create({
+        <ScrollView ref={scrollViewRef} horizontal style={styles.container} scrollEnabled={false}>
+            <View style={styles.scrollContainer}>
+                <ChatList chatItems={chatItems} openChat={openChat} />
+                {/* <View style={styles.stickyContainer}>
+                    <Text style={styles.stickyText}>TAB TQWO: Sticky Text at the Bottom</Text>
+                </View> */}
+            </View>
+
+
+            <View style={styles.scrollContainer}>
+                <ChatPage activeChatId={activeChatId} closeChat={closeChat} />
+            </View>
+
+        </ScrollView>
+    );
+};
+
+const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'pink',
-        // height: '100%'
     },
-    
-    animatedView: {
-        position: 'absolute',
-        top: Dimensions.get('window').height,
-        top: 0,
-        right: 0,
-        width: '100%',
-        bottom: 0,
-        backgroundColor: '#fffffff7',
+    scrollContainer: {
+        width: Dimensions.get('window').width
+    },
+    item: {
         padding: 20,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        color: 'white',
-        height: Dimensions.get('window').height,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
     },
-})
-export default Chats
+});
+
+export default Chats;
