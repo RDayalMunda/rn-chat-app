@@ -4,6 +4,7 @@ const ChatList = ({ chatItems, openChat }) => {
 
     const styles = StyleSheet.create({
         container: {
+            height: '100%'
         },
         chatItem: {
             flexDirection: 'row',

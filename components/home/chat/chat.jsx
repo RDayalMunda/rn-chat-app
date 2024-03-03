@@ -1,14 +1,10 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text, ScrollView, Animated, Dimensions} from "react-native";
 import ChatList from "./chat-list";
 import ChatPage from "./chat-page";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 const Chats = () => {
-    let styles = StyleSheet.create({
-        container: {
-        }
-    })
 
     const [activeChatId, setActiveChat] = useState("")
     const [chatItems, setChatItems] = useState([
@@ -42,20 +38,70 @@ const Chats = () => {
         { "_id": "65e335e7d07bc171eeedc9eb", "name": "Hubbard Barnett", "lastMessage": "Reprehenderit amet dolor mollit officia.", "lastMessageType": "text", "unseenCount": 0 },
         { "_id": "65e335e7194e453e80c361f9", "name": "Fernandez Figueroa", "lastMessage": "Nulla officia ad adipisicing fugiat ad sit Lorem dolor voluptate eiusmod.", "lastMessageType": "text", "unseenCount": 1 }
     ])
+    const slideAnimation = useRef(new Animated.Value(0)).current;
+
+    const toggleVisibility = (show) => {
+        Animated.timing(slideAnimation, {
+            toValue: show?1:0,
+            duration: 300,
+            useNativeDriver: true,
+        }).start();
+
+    };
+
+    const animatedStyle = {
+        transform: [
+            {
+                translateY: slideAnimation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [ 0, -Dimensions.get('window').height], // Slide from translateY 0 to translateY 50
+                }),
+            },
+        ],
+    };
+
 
     function openChat(chatId) {
-        console.log('to open chat', chatId)
         if (chatId) {
             setActiveChat(chatId)
+            toggleVisibility(true)
         }
     }
 
+    function closeChat(){
+        setActiveChat('')
+        toggleVisibility(false)
+    }
+
     return (
-        <View style={styles.container}>
+        <>
             <ChatList chatItems={chatItems} openChat={openChat} />
-            <ChatPage activeChatId={activeChatId} key={activeChatId} />
-        </View>
+            <Animated.View style={[styles.animatedView, animatedStyle]}>
+                <ChatPage activeChatId={activeChatId} closeChat={closeChat} key={activeChatId} />
+            </Animated.View>
+            <Text>one</Text>
+        </>
     )
 }
-
+let styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: 'pink',
+        // height: '100%'
+    },
+    
+    animatedView: {
+        position: 'absolute',
+        top: Dimensions.get('window').height,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#000000',
+        padding: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        color: 'white',
+        height: Dimensions.get('window').height,
+    },
+})
 export default Chats

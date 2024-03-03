@@ -1,20 +1,21 @@
-// import { useEffect } from "react";
-import { View, Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
-const ChatPage = ({ activeChatId }) => {
-
-    // useEffect( ()=>{
-    //     console.log('activeChatId', activeChatId)
-    // }, [  ] )
+const ChatPage = ({ activeChatId, closeChat }) => {
 
     console.log('chatPage', activeChatId)
 
+
+
     return (
-        <View >
-            <Text>Chat mesages here</Text>
-            <Text>{activeChatId}</Text>
-        </View>
+        <>
+            <TouchableOpacity onPress={closeChat} style={{ backgroundColor: 'white' }}>
+                <Text>Close</Text>
+            </TouchableOpacity>
+            <Text style={{ color: 'white', fontSize: 25 }}>{activeChatId}</Text>
+        </>
     )
 }
+
+
 
 export default ChatPage
