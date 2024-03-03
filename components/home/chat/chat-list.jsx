@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from "react-native";
-
+import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { RIPPLE_STYLE_DARK } from "../../../constants/styles";
 const ChatList = ({ chatItems, openChat }) => {
 
     const styles = StyleSheet.create({
@@ -37,7 +37,12 @@ const ChatList = ({ chatItems, openChat }) => {
         <ScrollView style={styles.container}>
             {
                 chatItems.map(item => (
-                    <TouchableOpacity key={item._id} style={styles.chatItem} onPress={() => { openChat(item?._id) }}>
+                    <Pressable
+                    key={item._id}
+                    style={styles.chatItem}
+                    onPress={() => { openChat(item?._id) }}
+                    android_ripple={RIPPLE_STYLE_DARK}
+                    >
                         <View style={styles.leftContent}>
                             <Text style={styles.chatName}>{item.name}</Text>
                             <Text style={styles.lastMessage}>{item.lastMessage}</Text>
@@ -45,7 +50,7 @@ const ChatList = ({ chatItems, openChat }) => {
                         <View style={styles.rightContent}>
                             <Text style={styles.unseenCountText}>{item?.unseenCount ? item?.unseenCount : ''}</Text>
                         </View>
-                    </TouchableOpacity>
+                    </Pressable>
                 ))
             }
 

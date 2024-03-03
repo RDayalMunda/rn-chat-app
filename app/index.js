@@ -1,4 +1,4 @@
-import { SafeAreaView} from "react-native";
+import { SafeAreaView, Text} from "react-native";
 import { Stack } from "expo-router"
 import ImageBtn from "../components/header/image-btn";
 
@@ -22,6 +22,7 @@ export default function Home() {
                 }}
             />
             <HomeComponent />
+            <Text style={{textAlign: 'center'}}>All rights reserved.</Text>
         </SafeAreaView>
     )
 }

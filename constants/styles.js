@@ -1,3 +1,4 @@
+
 export const COLORS = {
     active: "#000000",
     inactive: "#777777",
@@ -17,4 +18,14 @@ export const GAP = {
     small: 5,
     medium: 10,
     large: 16, 
+}
+
+
+export const RIPPLE_STYLE_DARK = {
+    color: '#00000078',
+    borderless: false
+}
+export const RIPPLE_STYLE_LIGHT = {
+    color: '#ffffffaa',
+    borderless: false
 }

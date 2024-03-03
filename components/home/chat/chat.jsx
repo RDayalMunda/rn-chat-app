@@ -1,12 +1,12 @@
-import { View, StyleSheet, Text, ScrollView, Animated, Dimensions} from "react-native";
+import { StyleSheet, Animated, Dimensions} from "react-native";
 import ChatList from "./chat-list";
 import ChatPage from "./chat-page";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 
 const Chats = () => {
 
-    const [activeChatId, setActiveChat] = useState("")
+    var [activeChatId, setActiveChatId] = useState("")
     const [chatItems, setChatItems] = useState([
         { "_id": "65e335e79cda0d6e0f2b685a", "name": "Kidd Case", "lastMessage": "Laboris excepteur minim amet laborum adipisicing magna.", "lastMessageType": "text", "unseenCount": 2 },
         { "_id": "65e335e708485ea8d5d942f4", "name": "Bridgette Pruitt", "lastMessage": "Do ex ex adipisicing quis eu.", "lastMessageType": "text", "unseenCount": 4 },
@@ -40,9 +40,9 @@ const Chats = () => {
     ])
     const slideAnimation = useRef(new Animated.Value(0)).current;
 
-    const toggleVisibility = (show) => {
+    const toggleVisibility = () => {
         Animated.timing(slideAnimation, {
-            toValue: show?1:0,
+            toValue: activeChatId?1:0,
             duration: 300,
             useNativeDriver: true,
         }).start();
@@ -52,9 +52,9 @@ const Chats = () => {
     const animatedStyle = {
         transform: [
             {
-                translateY: slideAnimation.interpolate({
+                translateX: slideAnimation.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [ 0, -Dimensions.get('window').height], // Slide from translateY 0 to translateY 50
+                    outputRange: [ Dimensions.get('window').width, 0], // Slide from translateY 0 to translateY 50
                 }),
             },
         ],
@@ -63,14 +63,14 @@ const Chats = () => {
 
     function openChat(chatId) {
         if (chatId) {
-            setActiveChat(chatId)
-            toggleVisibility(true)
+            activeChatId = chatId, setActiveChatId(chatId);
+            toggleVisibility();
         }
     }
 
     function closeChat(){
-        setActiveChat('')
-        toggleVisibility(false)
+        activeChatId = '', setActiveChatId('');
+        toggleVisibility()
     }
 
     return (
@@ -79,7 +79,6 @@ const Chats = () => {
             <Animated.View style={[styles.animatedView, animatedStyle]}>
                 <ChatPage activeChatId={activeChatId} closeChat={closeChat} key={activeChatId} />
             </Animated.View>
-            <Text>one</Text>
         </>
     )
 }
@@ -93,10 +92,11 @@ let styles = StyleSheet.create({
     animatedView: {
         position: 'absolute',
         top: Dimensions.get('window').height,
-        left: 0,
+        top: 0,
         right: 0,
+        width: '100%',
         bottom: 0,
-        backgroundColor: '#000000',
+        backgroundColor: '#fffffff7',
         padding: 20,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
