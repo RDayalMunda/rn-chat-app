@@ -61,9 +61,6 @@ const Chats = () => {
         <ScrollView ref={scrollViewRef} horizontal style={styles.container} scrollEnabled={false}>
             <View style={styles.scrollContainer}>
                 <ChatList chatItems={chatItems} openChat={openChat} />
-                {/* <View style={styles.stickyContainer}>
-                    <Text style={styles.stickyText}>TAB TQWO: Sticky Text at the Bottom</Text>
-                </View> */}
             </View>
 
 
