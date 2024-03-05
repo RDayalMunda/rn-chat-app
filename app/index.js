@@ -1,6 +1,5 @@
 import { SafeAreaView, Text} from "react-native";
 import { Stack } from "expo-router"
-import ImageBtn from "../components/header/image-btn";
 
 import HomeComponent from "../components/home/home";
 
@@ -15,9 +14,9 @@ export default function Home() {
                 options={{
                     headerStyle: { backgroundColor: '#e1e1f1', paddingHorizontal: 20 },
                     headerShadowVisible: true,
-                    headerRight: ()=>(
-                        <ImageBtn dimension={'70%'}/>
-                    ),
+                    // headerRight: ()=>(
+                    //     <ImageBtn dimension={'70%'}/>
+                    // ),
                     title: 'Chat App', // this by default is "index".
                 }}
             />

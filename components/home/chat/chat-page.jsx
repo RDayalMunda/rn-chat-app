@@ -1,6 +1,7 @@
-import { View, Text, Pressable, StyleSheet, BackHandler, TextInput, ScrollView } from "react-native";
-import { COLORS, RIPPLE_STYLE_LIGHT } from "../../../constants/styles";
+import { View, Text, Pressable, StyleSheet, BackHandler, TextInput, ScrollView, Image } from "react-native";
+import { COLORS, NAVIGATION_IMG_BTN, RIPPLE_STYLE_LIGHT } from "../../../constants/styles";
 import { useEffect, useState } from "react";
+import { BACK_ARROW_CIRCLE } from "../../../constants/images";
 const ChatPage = ({ activeChatId, closeChat }) => {
 
 
@@ -15,7 +16,7 @@ const ChatPage = ({ activeChatId, closeChat }) => {
   }
   let [messages, setMessages] = useState([
     { "_id": "65e46364a645d9885cbf1fdd", "message": "Aute id laborum.", "senderOid": "65e4636424d3d33ce2d75625", "senderName": "Mcintosh Branch" },
-    { "_id": "65e463648e6ba75ba353de0f", "message": "Aliquip cupidatat ipsum cillum proident irure anim do officia magna voluptate.", "senderOid": "65e4636409f846145cfdb0d7", "senderName": "Kramer Cote" },
+    { "_id": "65e463648e6ba75ba353de0f", "message": "Aliquip cupidatat ipsum cillum proident irure anim do officia magna voluptate. Aliquip cupidatat ipsum cillum proident irure anim do officia magna voluptate.", "senderOid": "65e4636409f846145cfdb0d7", "senderName": "Kramer Cote" },
     { "_id": "65e46364072c8ddcdebb5f50", "message": "Minim reprehenderit nisi est consequat velit ex dolore in et sunt exercitation reprehenderit sint.", "senderOid": "65e4636424d3d33ce2d75625", "senderName": "Mcintosh Branch" },
     { "_id": "65e4636445941ab89eb450ad", "message": "consectetur occaecat consequat ipsum.", "senderOid": "65e46364356868538f819830", "senderName": "England Morrison" },
     { "_id": "65e463646bee7b7c13cb5609", "message": "Consectetur deserunt tempor est adipisicing nulla irure.", "senderOid": "65e4636452272d1507e63e74", "senderName": "Brandy Levy" },
@@ -57,13 +58,11 @@ const ChatPage = ({ activeChatId, closeChat }) => {
 
   useEffect(() => {
     const backHandlerListener = BackHandler.addEventListener('hardwareBackPress', backHandlerFunction)
-
-
     // return is the event when the component is unmounted
     return () => {
       backHandlerListener.remove()
     }
-  }, [])
+  })
 
   return (
     <>
@@ -74,10 +73,18 @@ const ChatPage = ({ activeChatId, closeChat }) => {
           style={styles.button}
           android_ripple={RIPPLE_STYLE_LIGHT}
         >
-          <Text style={styles.buttonText}>Back</Text>
+          <Image
+          style={NAVIGATION_IMG_BTN}
+          source={BACK_ARROW_CIRCLE}
+          />
         </Pressable>
-        <Text>{chatData?.name}</Text>
+        <View>
+          <Text style={styles.userName}>{chatData?.name}</Text>
+          <Text style={styles.userActivity}>Online</Text>
+        </View>
+        
       </View>
+
       <View style={styles.container}>
         <ScrollView>
           {messages.map((item) => (
@@ -85,8 +92,12 @@ const ChatPage = ({ activeChatId, closeChat }) => {
             key={item?._id}
             style={[styles.message, userData?._id==item?.senderOid?styles.messageSend:styles.messageReceived]}
             >
-              <Text style={styles.messageText}>{item.message}</Text>
-              <View style={[styles.tail, userData?._id==item?.senderOid?styles.sentTail:styles.receivedTail]}></View>
+              <Text
+              style={[styles.messageText, userData?._id==item?.senderOid?styles.messageTextSend:styles.messageTextReceived]}
+              >
+                {item.message}
+              </Text>
+              <View style={[ styles.tail, userData?._id==item?.senderOid?styles.sentTail:styles.receivedTail ]}></View>
             </View>
           ))}
         </ScrollView>
@@ -94,8 +105,8 @@ const ChatPage = ({ activeChatId, closeChat }) => {
 
       <View style={styles.toolbar}>
         <View style={{ flex: 1, flexDirection: 'row' }}>
-          <TextInput style={styles.input} />
-          <Pressable style={styles.sendButton}><Text>Send</Text></Pressable>
+          <TextInput style={styles.input} placeholder="type message"/>
+          <Pressable style={styles.sendButton} android_ripple={RIPPLE_STYLE_LIGHT}><Text>Send</Text></Pressable>
         </View>
       </View>
     </>
@@ -109,29 +120,49 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',
+    justifyContent: 'space-between',
     padding: 10,
     backgroundColor: COLORS.activeBg
   },
-
+  userName: {
+    fontSize: 20,
+    textAlign: 'right'
+  },
+  userActivity: {
+    fontSize: 16,
+    textAlign: 'right'
+  },
   message: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    margin: 10,
-    padding: 10,
-    marginHorizontal: 40,
+    flexDirection: 'row',
+    flex: 1,
+    margin: 5,
+  },
+  messageSend: {
+    justifyContent: 'flex-end',
+  },
+  messageReceived: {
+    justifyContent: 'flex-start',
   },
   messageText: {
     color: '#ffffff',
+    padding: 10,
+    flexWrap: 'nowrap'
   },
-  messageSend: {
-    backgroundColor: '#305c30',
-    marginLeft: 60,
+  messageTextSend: {
     borderTopLeftRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    backgroundColor: COLORS.sentMessage,
+    marginLeft: 50,
+    marginRight: 20,
   },
-  messageReceived: {
-    marginRight: 60,
-    backgroundColor: '#495149',
+  messageTextReceived: {
     borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    backgroundColor: COLORS.receivedMessage,
+    marginRight: 50,
+    marginLeft: 20,
   },
   tail: {
     position: 'absolute',
@@ -142,19 +173,16 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   sentTail: {
-    borderLeftWidth: 20,
-    borderLeftColor: '#305c30',
-    right: -20,
+    borderLeftWidth: 15,
+    borderLeftColor: COLORS.sentMessage,
+    right: 6,
   },
   receivedTail: {
-    borderRightWidth: 20,
-    borderRightColor: '#495149',
-    left: -20,
+    borderRightWidth: 15,
+    borderRightColor: COLORS.receivedMessage,
+    left: 6,
   },
   button: {
-    backgroundColor: 'black',
-    padding: 10,
-    borderRadius: 10,
     justifyContent: 'center'
   },
   sendButton: {

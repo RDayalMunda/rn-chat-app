@@ -1,0 +1,1 @@
+export const BACK_ARROW_CIRCLE = require("../assets/images/back-arrow-circle.png")

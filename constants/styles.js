@@ -12,6 +12,8 @@ export const COLORS = {
     activeBorder: '#bbbbee',
     inactiveBorder: '#bbbbee',
     disabledBorder: '#f1f1f1',
+    sentMessage: "#3e9267",
+    receivedMessage: "#4e5d6c"
 }
 
 export const GAP = {
@@ -28,4 +30,10 @@ export const RIPPLE_STYLE_DARK = {
 export const RIPPLE_STYLE_LIGHT = {
     color: '#ffffffaa',
     borderless: false
+}
+
+export const NAVIGATION_IMG_BTN = {
+    width: 50,
+    height: 50,
+    resizeMode: 'container'
 }
